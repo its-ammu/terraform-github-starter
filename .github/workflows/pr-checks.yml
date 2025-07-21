@@ -99,7 +99,7 @@ jobs:
             echo "📁 Using qa environment variables"
           fi
 
-          CHECKOV_SKIP_CHECKS=$(cat ..checkov_skip_checks)
+          CHECKOV_SKIP_CHECKS=$(cat .checkov_skip_checks)
           echo "🔍 Skipping checks: $CHECKOV_SKIP_CHECKS"
           
           echo "🔍 Starting Checkov scan with var file: $VAR_FILE"
