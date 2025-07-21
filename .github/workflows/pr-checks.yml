@@ -37,7 +37,6 @@ jobs:
           echo "🔍 Running Terraform format check..."
           terraform fmt -check -recursive
           echo "✅ Terraform format check completed"
-        continue-on-error: true
 
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -61,10 +60,10 @@ jobs:
           echo "✅ Terraform validation completed"
 
       - name: Terraform Plan
-        run: terraform plan -var-file=environments/dev.tfvars 
+        run: terraform plan -var-file=environments/dev.tfvars -out=plan.txt
 
       - name: Upload Terraform Plan
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-plan
           path: plan.txt
@@ -93,14 +92,18 @@ jobs:
         run: |
           echo "🔍 Determining target environment..."
           if [ "${{ github.base_ref }}" = "develop" ]; then
-            VAR_FILE="environments/dev/terraform.tfvars"
+            VAR_FILE="environments/dev.tfvars"
             echo "📁 Using dev environment variables"
           elif [ "${{ github.base_ref }}" = "main" ]; then
-            VAR_FILE="environments/qa/terraform.tfvars"
+            VAR_FILE="environments/qa.tfvars"
             echo "📁 Using qa environment variables"
+          else
+            echo "🔍 No environment specified"
+            VAR_FILE="environments/dev.tfvars"
+            exit 1
           fi
 
-          CHECKOV_SKIP_CHECKS=$(cat ..checkov_skip_checks)
+          CHECKOV_SKIP_CHECKS=$(cat .checkov_skip_checks)
           echo "🔍 Skipping checks: $CHECKOV_SKIP_CHECKS"
           
           echo "🔍 Starting Checkov scan with var file: $VAR_FILE"
@@ -121,13 +124,17 @@ jobs:
         run: |
           echo "🔍 Determining target environment..."
           if [ "${{ github.base_ref }}" = "develop" ]; then
-            VAR_FILE="environments/dev/terraform.tfvars"
+            VAR_FILE="environments/dev.tfvars"
             echo "📁 Using dev environment variables"
           elif [ "${{ github.base_ref }}" = "main" ]; then
-            VAR_FILE="environments/qa/terraform.tfvars"
+            VAR_FILE="environments/qa.tfvars"
             echo "📁 Using qa environment variables"
+          else
+            echo "🔍 No environment specified"
+            VAR_FILE="environments/dev.tfvars"
+            exit 1
           fi
-          CHECKOV_SKIP_CHECKS=$(cat ..checkov_skip_checks)
+          CHECKOV_SKIP_CHECKS=$(cat .checkov_skip_checks)
           checkov -d . \
             --framework terraform \
             --framework terraform_plan \
@@ -136,9 +143,10 @@ jobs:
             --soft-fail \
             --check "CKV_AWS_*" \
             --skip-check $CHECKOV_SKIP_CHECKS \
-            --var-file=$VAR_FILE > checkov.sarif
+            --var-file=$VAR_FILE \
+            --output-file-path checkov.sarif
       - name: Upload Checkov SARIF
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: checkov.sarif
         continue-on-error: true
