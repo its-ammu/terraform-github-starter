@@ -124,13 +124,17 @@ jobs:
         run: |
           echo "🔍 Determining target environment..."
           if [ "${{ github.base_ref }}" = "develop" ]; then
-            VAR_FILE="environments/dev/terraform.tfvars"
+            VAR_FILE="environments/dev.tfvars"
             echo "📁 Using dev environment variables"
           elif [ "${{ github.base_ref }}" = "main" ]; then
-            VAR_FILE="environments/qa/terraform.tfvars"
+            VAR_FILE="environments/qa.tfvars"
             echo "📁 Using qa environment variables"
+          else
+            echo "🔍 No environment specified"
+            VAR_FILE="environments/dev.tfvars"
+            exit 1
           fi
-          CHECKOV_SKIP_CHECKS=$(cat ..checkov_skip_checks)
+          CHECKOV_SKIP_CHECKS=$(cat .checkov_skip_checks)
           checkov -d . \
             --framework terraform \
             --framework terraform_plan \
