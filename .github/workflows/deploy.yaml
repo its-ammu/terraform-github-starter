@@ -1,4 +1,4 @@
-name: Infra Deployment Pipeline
+name: Deploy
 
 # TODO: The following items should be updated :
 # - Secrets, Variables, Environment Variables
