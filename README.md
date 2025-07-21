@@ -14,16 +14,17 @@ A starter template for deploying infrastructure using Terraform with GitHub Acti
 ## Folder Structure
 
 ```
-.github/
-  workflows/
-    deploy.yaml         # Main deployment pipeline
-    pr-checks.yml       # PR checks for Terraform code
-.checkov_skip_checks    # List of Checkov checks to skip
-.tflint.hcl             # TFLint configuration
-README.md
-main.tf                 # Example Terraform configuration
-variables.tf            # Example variables definition
-outputs.tf              # Example outputs definition
+.
+├── .github/
+│   └── workflows/
+│       ├── deploy.yaml         # Main deployment pipeline
+│       └── pr-checks.yml       # PR checks for Terraform code
+├── .checkov_skip_checks        # List of Checkov checks to skip
+├── .tflint.hcl                 # TFLint configuration
+├── README.md
+├── main.tf                     # Example Terraform configuration
+├── variables.tf                # Example variables definition
+└── outputs.tf                  # Example outputs definition
 ```
 
 ## Getting Started
@@ -56,9 +57,10 @@ Set the following secrets in your repository for each environment:
 
 You can add the following badges to your README for visibility:
 
-- ![CI](https://github.com/OWNER/REPO/actions/workflows/pr-checks.yml/badge.svg) — PR Checks Status
-- ![Deploy](https://github.com/OWNER/REPO/actions/workflows/deploy.yaml/badge.svg) — Deployment Pipeline Status
-- ![Security](https://github.com/github/codeql-action/workflows/CodeQL/badge.svg) — Security Scans (if using CodeQL)
+| Badge | URL | Description |
+|-------|-----|-------------|
+| ![CI](https://github.com/its-ammu/terraform-github-starter/actions/workflows/pr-checks.yml/badge.svg) | https://github.com/OWNER/REPO/actions/workflows/pr-checks.yml/badge.svg | PR Checks Status |
+| ![Deploy](https://github.com/its-ammu/terraform-github-starter/actions/workflows/deploy.yaml/badge.svg) | https://github.com/OWNER/REPO/actions/workflows/deploy.yaml/badge.svg | Deployment Pipeline Status |
 
 Replace `OWNER/REPO` with your GitHub username and repository name.
 
