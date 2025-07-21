@@ -37,7 +37,6 @@ jobs:
           echo "🔍 Running Terraform format check..."
           terraform fmt -check -recursive
           echo "✅ Terraform format check completed"
-        continue-on-error: true
 
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4

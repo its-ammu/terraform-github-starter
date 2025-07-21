@@ -1,1 +1,1 @@
-bucket_name="terraform-github-starter-dev"
+bucket_name = "terraform-github-starter-dev"
