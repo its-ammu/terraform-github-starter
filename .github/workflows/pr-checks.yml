@@ -61,7 +61,7 @@ jobs:
           echo "✅ Terraform validation completed"
 
       - name: Terraform Plan
-        run: terraform plan -var-file=environments/dev.tfvars 
+        run: terraform plan -var-file=environments/dev.tfvars -out=plan.txt
 
       - name: Upload Terraform Plan
         uses: actions/upload-artifact@v4
