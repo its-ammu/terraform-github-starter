@@ -143,9 +143,10 @@ jobs:
             --soft-fail \
             --check "CKV_AWS_*" \
             --skip-check $CHECKOV_SKIP_CHECKS \
-            --var-file=$VAR_FILE > checkov.sarif
+            --var-file=$VAR_FILE \
+            --output-file-path checkov.sarif
       - name: Upload Checkov SARIF
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: checkov.sarif
         continue-on-error: true
