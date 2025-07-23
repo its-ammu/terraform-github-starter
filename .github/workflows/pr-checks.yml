@@ -150,3 +150,40 @@ jobs:
         with:
           sarif_file: checkov.sarif
         continue-on-error: true
+
+      - name: Setup tfsec
+        run: |
+          echo "🚀 Setting up tfsec..."
+          curl -L -o tfsec https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64
+          chmod +x tfsec
+          sudo mv tfsec /usr/local/bin/
+          echo "✅ tfsec setup completed"
+
+      - name: tfsec Scan
+        run: |
+          echo "🔍 Determining target environment..."
+          if [ "${{ github.base_ref }}" = "develop" ]; then
+            VAR_FILE="environments/dev.tfvars"
+            echo "📁 Using dev environment variables"
+          elif [ "${{ github.base_ref }}" = "main" ]; then
+            VAR_FILE="environments/qa.tfvars"
+            echo "📁 Using qa environment variables"
+          else
+            echo "🔍 No environment specified"
+            VAR_FILE="environments/dev.tfvars"
+            exit 1
+          fi
+
+          echo "🔍 Starting tfsec scan with var file: $VAR_FILE"
+          tfsec . \
+            --tfvars-file=$VAR_FILE \
+            --format=json \
+            --out=tfsec-results.json
+          echo "✅ tfsec scan completed"
+
+      - name: Upload tfsec Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfsec-results
+          path: tfsec-results.json
+        continue-on-error: true
