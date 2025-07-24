@@ -152,14 +152,6 @@ jobs:
           sarif_file: checkov.sarif
         continue-on-error: true
 
-      - name: Setup tfsec
-        run: |
-          echo "🚀 Setting up tfsec..."
-          curl -L -o tfsec https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64
-          chmod +x tfsec
-          sudo mv tfsec /usr/local/bin/
-          echo "✅ tfsec setup completed"
-
       - name: tfsec
         uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
         with:
