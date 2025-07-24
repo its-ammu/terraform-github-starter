@@ -169,5 +169,5 @@ jobs:
       - name: Upload tfsec SARIF
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: results.sarif
+          sarif_file: results.sarif.json
         continue-on-error: true
