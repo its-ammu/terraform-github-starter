@@ -175,11 +175,17 @@ jobs:
           fi
 
           echo "🔍 Starting tfsec scan with var file: $VAR_FILE"
+          
+          tfsec . \
+            --tfvars-file=$VAR_FILE 
+
           tfsec . \
             --tfvars-file=$VAR_FILE \
             --format=json \
             --out=tfsec-results.json
+
           echo "✅ tfsec scan completed"
+
 
       - name: Upload tfsec Results
         uses: actions/upload-artifact@v4
