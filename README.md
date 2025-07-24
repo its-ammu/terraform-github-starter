@@ -79,6 +79,7 @@ Replace `OWNER/REPO` with your GitHub username and repository name.
   - Terraform init & validate
   - Terraform plan (plan file uploaded as artifact)
   - TFLint linting (SARIF report uploaded)
+  - TFSec security scan (SARIF report uploaded, bot will be adding PR comments) 
   - Checkov security scan (SARIF report uploaded, configurable via `.checkov_skip_checks`)
 
 #### 2. Deployment Pipeline (`.github/workflows/deploy.yaml`)
