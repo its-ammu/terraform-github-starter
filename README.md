@@ -67,7 +67,7 @@ Replace `OWNER/REPO` with your GitHub username and repository name.
 ## Reporting & Artifacts
 
 - **Terraform Plan**: The PR workflow uploads the Terraform plan as an artifact for review.
-- **TFLint & Checkov Reports**: Linting and security scan results are uploaded as SARIF reports and integrated into the GitHub Security tab for inline review.
+- **tfsec & Checkov Reports**: Linting and security scan results are uploaded as SARIF reports and integrated into the GitHub Security tab for inline review.
 
 ### Workflows
 
@@ -81,6 +81,8 @@ Replace `OWNER/REPO` with your GitHub username and repository name.
   - TFLint linting (SARIF report uploaded)
   - TFSec security scan (SARIF report uploaded, bot will be adding PR comments) 
   - Checkov security scan (SARIF report uploaded, configurable via `.checkov_skip_checks`)
+
+*Note : You can use checkov or tfsec based on your needs and remove the other one.*
 
 #### 2. Deployment Pipeline (`.github/workflows/deploy.yaml`)
 
@@ -104,10 +106,6 @@ Replace `OWNER/REPO` with your GitHub username and repository name.
 - Add or modify environments in `deploy.yaml`.
 - Adjust PR checks as needed in `pr-checks.yml`.
 - Update `.checkov_skip_checks` and `.tflint.hcl` for your policies.
-
-## Contributing
-
-Contributions are welcome! Please open issues or submit PRs for improvements.
 
 ## License
 
